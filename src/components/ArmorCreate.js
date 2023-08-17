@@ -7,9 +7,10 @@ const ArmorCreate = () => {
     const [helmOptions, setHelmOptions] = useState([])
     const [chestOptions, setChestOptions] = useState([])
     const [legOptions, setLegOptions] = useState([])
-    const [selectedHelm, setSelectedHelm] = useState('')
-    const [selectedChest, setSelectedChest] = useState('')
-    const [selectedLeg, setSelectedLeg] = useState('')
+    const [selectedHelm, setSelectedHelm] = useState('');
+    const [selectedChest, setSelectedChest] = useState('');
+    const [selectedLeg, setSelectedLeg] = useState('');
+    const [selectedArmorSetName, setSelectedArmorSetName] = useState('')
 
     const fetchHelms = async () => {
         await 
@@ -17,7 +18,7 @@ const ArmorCreate = () => {
                 .get('/helms')
                 .then(res => {
                     setHelmOptions(res.data)
-                    console.log('line 16', res.data)
+                    // console.log('line 16', res.data)
                 })
                 .catch(err => {
                     console.log(err)
@@ -30,7 +31,7 @@ const ArmorCreate = () => {
                 .get('/chest')
                 .then(res => {
                     setChestOptions(res.data)
-                    console.log('line 29', res.data)
+                    // console.log('line 29', res.data)
                 })
                 .catch(err => {
                     console.log(err)
@@ -43,7 +44,7 @@ const ArmorCreate = () => {
                 .get('/leg')
                 .then(res => {
                     setLegOptions(res.data)
-                    console.log('line 42', res.data)
+                    // console.log('line 42', res.data)
                 })
                 .catch(err => {
                     console.log(err)
@@ -55,59 +56,78 @@ const ArmorCreate = () => {
         fetchChest()
         fetchLeg()
     }, [])
+
+    const handleHelmChange = (e) => {
+        setSelectedHelm(e.target.value);
+    };
     
-    const handleHelmSelection = (e) => {
-        setSelectedHelm(e.target.value)
-        console.log('line 61', e.target.value)
+    const handleChestChange = (e) => {
+        setSelectedChest(e.target.value);
+    };
+
+    const handleLegChange = (e) => {
+        setSelectedLeg(e.target.value);
+    };
+
+    const onSubmit = async (e) => {
+        e.preventDefault();
+
+        console.log('line 75', selectedArmorSetName)
+        console.log('line 76', +selectedHelm)
+        console.log('line 77', +selectedChest)
+        console.log('line 78', +selectedLeg)
+
+        const armorObj = {
+            nameEntry: selectedArmorSetName,
+            helmEntry: +selectedHelm,
+            chestEntry: +selectedChest,
+            legEntry: +selectedLeg
+        }
+
+        await
+            axios
+                .post('/armorset', armorObj)
+                .then((res) => {
+                    console.log(res.data)
+                    setSelectedHelm('')
+                    setSelectedChest('')
+                    setSelectedLeg('')
+                    setSelectedArmorSetName('')
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+
     }
-
-    const handleChestSelection = (e) => {
-        setSelectedChest(e.target.value)
-        console.log('line 66', e.target.value)
-    }
-
-    const handleLegSelection = (e) => {
-        setSelectedLeg(e.target.value)
-        console.log('line 71', e.target.value)
-    }
-
-    console.log('line 74', helmOptions)
-    console.log('line 75', chestOptions)
-    console.log('line 76', legOptions)
-
-    const mappedHelm = helmOptions.map(h => {
-        return (
-            <select value={selectedHelm} onChange={handleHelmSelection}>
-                <option>Select...</option>
-                <option>{h.helmName}</option>
-            </select>
-        )
-    })
-
-    const mappedChest = chestOptions.map(c => {
-        return (
-            <select value={selectedChest} onChange={handleChestSelection}>
-                <option>Select...</option>
-                <option>{c.chestName}</option>
-            </select>
-        )
-    })
-
-    const mappedLeg = legOptions.map(le => {
-        return (
-            <select value={selectedLeg} onChange={handleLegSelection}>
-                <option>Select...</option>
-                <option>{le.legName}</option>
-            </select>
-        )
-    })
 
     return (
         <div>
-            <form>
-                {mappedHelm}
-                {mappedChest}
-                {mappedLeg}
+            <form onSubmit={onSubmit}>
+                <select value={selectedHelm} onChange={handleHelmChange}>
+                    <option value=''>Select...</option>
+                    {helmOptions.map((helm) => (
+                        <option key={helm.helm_id} value={helm.helm_id}>{helm.helmName}</option>
+                    ))}
+                </select>
+                <select value={selectedChest} onChange={handleChestChange}>
+                    <option value=''>Select...</option>
+                    {chestOptions.map((chest) => (
+                        <option key={chest.chest_id} value={chest.chest_id}>{chest.chestName}</option>
+                    ))}
+                </select>
+                <select value={selectedLeg} onChange={handleLegChange}>
+                    <option value=''>Select...</option>
+                    {legOptions.map((leg) => (
+                        <option key={leg.leg_id} value={leg.leg_id}>{leg.legName}</option>
+                    ))}
+                </select>
+                <input
+                    type='text'
+                    placeholder='Armor Set Name'
+                    value={selectedArmorSetName}
+                    onChange={(e) => setSelectedArmorSetName(e.target.value)}
+                />
+                <button type='submit' >Submit</button>
             </form>
         </div>
     )

@@ -65,6 +65,11 @@ const ArmorSet = sequelize.define('ArmorSet', {
     armorName: DataTypes.STRING({length: 25})
 });
 
+
+// Helm.hasMany(ArmorSet)
+// Chest.hasMany(ArmorSet)
+// Leg.hasMany(ArmorSet)
+
 ArmorSet.belongsTo(Helm, { foreignKey: 'helmArmor_id' });
 ArmorSet.belongsTo(Chest, { foreignKey: 'chestArmor_id' });
 ArmorSet.belongsTo(Leg, { foreignKey: 'legArmor_id' });
