@@ -7,7 +7,7 @@ const app = express()
 const { PORT } = process.env
 const { sequelize } = require('./util/db')
 const { User, Helm, Chest, Leg, ArmorSet } = require('./models/appModels')
-const { getHelms, getChestArmor, getLegArmor, addArmorSet, getArmorSets } = require('./controllers/armor')
+const { getHelms, getChestArmor, getLegArmor, addArmorSet, getArmorSets, getSelectedHelm } = require('./controllers/armor')
 const seed = require('./util/seed')
 
 app.use(express.json())
@@ -22,7 +22,8 @@ app.get('/chest', getChestArmor)
 app.get('/leg', getLegArmor)
 
 app.post('/armorset', addArmorSet)
-app.get('/sets', getArmorSets)
+app.get('/sets/:id', getArmorSets)
+app.get('/helmArmor/:id', getSelectedHelm)
 
 // After Auth Endpoints
 

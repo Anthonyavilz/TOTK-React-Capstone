@@ -11,12 +11,12 @@ const seed = async () => {
             helmEffect: 'None'
         },     
         {
-            helmName: 'Mask of Awakening',
-            helmURL: 'https://zeldatearsofthekingdom.wiki.fextralife.com/file/Zelda-Tears-of-the-Kingdom/mask_of_awakening_armor_zelda_tears_of_the_kingdom_wiki_guide_200px.png',
+            helmName: 'Barbarian Helm',
+            helmURL: 'https://zeldatearsofthekingdom.wiki.fextralife.com/file/Zelda-Tears-of-the-Kingdom/barbarian_helm-armor-zelda-totk-wiki-guide.png',
             helmDefense: 3,
-            helmLocation: 'Thundra Plateau',
-            helmLocationURL: 'https://mapgenie.io/zelda-tears-of-the-kingdom/maps/hyrule?locationIds=280863',
-            helmEffect: 'None'
+            helmLocation: 'Robred Dropoff Cave', 
+            helmLocationURL: 'https://mapgenie.io/zelda-tears-of-the-kingdom/maps/hyrule?locationIds=279726',
+            helmEffect: 'Attack Up'
         },
     ])
     await Chest.bulkCreate([
